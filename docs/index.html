@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>キャリア相談AI - エンジニア専門AIメンター</title>
+  <meta name="description" content="転職・年収交渉・キャリアパスの悩みをAIが本音で解決。現場経験豊富なエンジニア視点でアドバイス。月額¥2,000から。">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: #0f0f1a; color: #e0e0f0; }
+
+    /* Header */
+    header { text-align: center; padding: 80px 20px 60px; background: linear-gradient(135deg, #1a1a3e 0%, #0f0f1a 100%); }
+    .badge { display: inline-block; background: #5b4cff22; border: 1px solid #5b4cff; color: #8a7fff; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 20px; }
+    h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+    h1 span { color: #5b4cff; }
+    .subtitle { font-size: 1.2rem; color: #a0a0c0; max-width: 600px; margin: 0 auto 40px; line-height: 1.7; }
+    .cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: #5b4cff; color: white; padding: 16px 36px; border-radius: 8px; text-decoration: none; font-size: 1.1rem; font-weight: 700; transition: background 0.2s; }
+    .btn-primary:hover { background: #7060ff; }
+    .btn-secondary { display: inline-block; background: transparent; border: 1px solid #5b4cff; color: #8a7fff; padding: 16px 36px; border-radius: 8px; text-decoration: none; font-size: 1.1rem; transition: background 0.2s; }
+    .btn-secondary:hover { background: #5b4cff22; }
+
+    /* Pain points */
+    .section { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+    h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; text-align: center; }
+    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .pain-card { background: #1a1a2e; border: 1px solid #2a2a4e; border-radius: 12px; padding: 24px; }
+    .pain-card .icon { font-size: 2rem; margin-bottom: 12px; }
+    .pain-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .pain-card p { font-size: 0.92rem; color: #a0a0c0; line-height: 1.6; }
+
+    /* Features */
+    .features-section { background: #131325; padding: 80px 20px; }
+    .features-inner { max-width: 900px; margin: 0 auto; }
+    .feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; margin-top: 40px; }
+    .feature-item { display: flex; gap: 16px; align-items: flex-start; }
+    .feature-icon { width: 48px; height: 48px; background: #5b4cff22; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+    .feature-text h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .feature-text p { font-size: 0.88rem; color: #a0a0c0; line-height: 1.6; }
+
+    /* Demo conversation */
+    .demo-section { padding: 80px 20px; max-width: 760px; margin: 0 auto; }
+    .chat-box { background: #1a1a2e; border: 1px solid #2a2a4e; border-radius: 16px; padding: 28px; }
+    .chat-msg { display: flex; gap: 12px; margin-bottom: 20px; }
+    .chat-msg.user { flex-direction: row-reverse; }
+    .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .avatar.ai { background: #5b4cff; }
+    .avatar.user-av { background: #2a2a4e; }
+    .bubble { max-width: 80%; background: #252540; padding: 14px 18px; border-radius: 12px; font-size: 0.92rem; line-height: 1.6; color: #d0d0f0; }
+    .chat-msg.user .bubble { background: #5b4cff33; }
+
+    /* Pricing */
+    .pricing-section { background: #131325; padding: 80px 20px; }
+    .pricing-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+    .price-card { background: #1a1a2e; border: 2px solid #5b4cff; border-radius: 16px; padding: 48px 40px; margin-top: 40px; position: relative; overflow: hidden; }
+    .price-card::before { content: "RECOMMENDED"; position: absolute; top: 20px; right: -30px; background: #5b4cff; color: white; font-size: 0.7rem; padding: 4px 50px; transform: rotate(35deg); font-weight: 700; }
+    .price { font-size: 3rem; font-weight: 800; color: #8a7fff; }
+    .price sub { font-size: 1rem; vertical-align: bottom; margin-bottom: 8px; display: inline-block; }
+    .price-note { color: #a0a0c0; margin: 8px 0 28px; font-size: 0.92rem; }
+    .price-features { list-style: none; text-align: left; margin-bottom: 36px; }
+    .price-features li { padding: 10px 0; border-bottom: 1px solid #2a2a4e; display: flex; gap: 10px; align-items: center; font-size: 0.95rem; }
+    .price-features li::before { content: "✓"; color: #5b4cff; font-weight: 700; }
+    .free-note { margin-top: 28px; font-size: 0.88rem; color: #a0a0c0; }
+
+    /* FAQ */
+    .faq-section { padding: 80px 20px; max-width: 760px; margin: 0 auto; }
+    details { border: 1px solid #2a2a4e; border-radius: 10px; margin-bottom: 12px; padding: 0; }
+    summary { padding: 18px 24px; font-size: 0.98rem; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    summary::after { content: "+"; font-size: 1.4rem; color: #5b4cff; }
+    details[open] summary::after { content: "−"; }
+    details p { padding: 0 24px 18px; font-size: 0.92rem; color: #a0a0c0; line-height: 1.7; }
+
+    /* Footer */
+    footer { text-align: center; padding: 40px 20px; font-size: 0.85rem; color: #606080; border-top: 1px solid #1a1a2e; }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .price { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">エンジニア特化 × AI</div>
+  <h1>転職・キャリアの悩みを<br><span>AIが本音で解決</span>する</h1>
+  <p class="subtitle">
+    曖昧なアドバイスはもうやめた。年収交渉・技術スタック選択・転職タイミング——エンジニア視点で具体的に答えるAIメンター。
+  </p>
+  <div class="cta-group">
+    <a href="https://aiagenta523-glitch.gumroad.com/l/career-ai-monthly" class="btn-primary">プレミアムを始める ¥2,000/月</a>
+    <a href="#demo" class="btn-secondary">デモを見る</a>
+  </div>
+</header>
+
+<section class="section">
+  <h2>こんな悩み、抱えていませんか？</h2>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="icon">😓</div>
+      <h3>転職エージェントが「とりあえず応募」しか言わない</h3>
+      <p>ノルマ重視で本当のキャリアアドバイスをもらえない。エンジニアのキャリア事情を分かっていない人に相談したくない。</p>
+    </div>
+    <div class="pain-card">
+      <div class="icon">💸</div>
+      <h3>年収交渉で損しているかもしれない</h3>
+      <p>「この年収でいいのかな？」と不安。でも相場を調べても自分のケースに当てはまらない。具体的な交渉戦略がわからない。</p>
+    </div>
+    <div class="pain-card">
+      <div class="icon">🔀</div>
+      <h3>技術スタックの選択で迷い続けている</h3>
+      <p>学ぶべき技術・転職市場での評価・自分のキャリア目標——3つを一度に考えると頭が混乱して前に進めない。</p>
+    </div>
+    <div class="pain-card">
+      <div class="icon">⏰</div>
+      <h3>「転職すべきタイミング」がわからない</h3>
+      <p>今の会社に留まるべきか動くべきか。人に話すと「もう少し様子を見れば」と言われ続けてキャリアが止まっている。</p>
+    </div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="features-inner">
+    <h2>キャリア相談AIが選ばれる理由</h2>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-text">
+          <h3>エンジニア特化プロンプト設計</h3>
+          <p>一般的なキャリアAIと違い、技術職固有の転職市場・給与体系・スキルパスを深く学習。エンジニアの言語で話してくれます。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📊</div>
+        <div class="feature-text">
+          <h3>年収・市場価値の具体的試算</h3>
+          <p>「あなたのスキルセットで市場価値はXX〜YY万円」と数字で答えます。曖昧な激励ではなく、行動できる情報を提供。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-text">
+          <h3>本音で話せる非公開相談室</h3>
+          <p>「会社の愚痴」「上司への不満」「本当の転職理由」——誰にも聞かれない空間で本音を整理できます。会話履歴は保持されません。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-text">
+          <h3>Anthropic Claude駆動の高精度回答</h3>
+          <p>最新の大規模言語モデルAnthropicのClaudeを採用。複雑なキャリアの文脈を理解し、一貫したアドバイスを提供します。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔄</div>
+        <div class="feature-text">
+          <h3>何度でも試せる無制限相談（プレミアム）</h3>
+          <p>気が変わったら何度でも相談し直せます。「やっぱり転職やめた」も「やっぱり転職する」も全部付き合います。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">💬</div>
+        <div class="feature-text">
+          <h3>職務経歴書・志望動機のレビュー</h3>
+          <p>プレミアム機能として、職務経歴書の添削・志望動機の改善提案・面接想定QAも対応。内定率向上に直結します。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="demo-section" id="demo">
+  <h2>実際の会話例</h2>
+  <div class="chat-box">
+    <div class="chat-msg user">
+      <div class="avatar user-av">👤</div>
+      <div class="bubble">現在Webエンジニア3年目、年収450万円です。転職を考えているのですが、Goを学ぶべきかRustを学ぶべきか迷っています。</div>
+    </div>
+    <div class="chat-msg">
+      <div class="avatar ai">🤖</div>
+      <div class="bubble">3年目・450万円のWebエンジニアさんですね。転職市場での実利から答えると：<br><br><strong>短期（1年以内の転職）なら Go 一択です。</strong><br><br>理由：<br>・Go の求人数はRustの約8倍（2024年 Indeed調査）<br>・Webバックエンド〜インフラまで汎用的に使える<br>・3年目Webエンジニアが GoをGoらしく書けると、年収500〜650万円レンジへのジャンプが現実的<br><br>Rustは長期的な市場価値は高いですが、まず転職で年収を上げる目的なら回り道になります。<br><br>現在のスタックを教えてもらえますか？より具体的なロードマップを出せます。</div>
+    </div>
+    <div class="chat-msg user">
+      <div class="avatar user-av">👤</div>
+      <div class="bubble">なるほど！現在はRails + React使ってます。この経験、どう評価されますか？</div>
+    </div>
+    <div class="chat-msg">
+      <div class="avatar ai">🤖</div>
+      <div class="bubble">Rails + React 3年は市場で非常に評価されます。<br><br><strong>現在の市場価値推定：450〜560万円</strong>（東京・フルリモート可なら上限寄り）<br><br>転職先の選択肢：<br>1. <strong>SaaSスタートアップ（シリーズA〜B）</strong>：Rails継続・年収500〜600万、ストックオプション付きが多い<br>2. <strong>Go移行案件</strong>：Rails→Go移行を進める企業は引く手あまた。年収600〜700万も射程内<br>3. <strong>フリーランス</strong>：Rails + React で月70〜90万は普通に取れる<br><br>あなたの場合、Goを3〜6ヶ月学習してから転職活動すると年収100万以上のアップが狙えます。今すぐ動きたいなら現スタックのままで十分市場価値あり。どちらが優先ですか？</div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-section">
+  <div class="pricing-inner">
+    <h2>シンプルな料金体系</h2>
+    <div class="price-card">
+      <div class="price"><sub>¥</sub>2,000<sub>/月</sub></div>
+      <p class="price-note">いつでもキャンセル可能 • 初月から全機能利用可能</p>
+      <ul class="price-features">
+        <li>プレミアムAIとの無制限相談</li>
+        <li>年収・市場価値の具体的試算</li>
+        <li>職務経歴書・志望動機レビュー</li>
+        <li>面接想定QAの作成支援</li>
+        <li>エンジニア特化プロンプト（全モデル）</li>
+        <li>新機能への優先アクセス</li>
+      </ul>
+      <a href="https://aiagenta523-glitch.gumroad.com/l/career-ai-monthly" class="btn-primary" style="display:block; text-align:center;">プレミアムを開始する</a>
+      <p class="free-note">✓ 無料お試し：登録不要で3回まで相談できます</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <h2>よくある質問</h2>
+  <details>
+    <summary>AIなのに本当に役に立ちますか？</summary>
+    <p>キャリア相談AIはエンジニア転職に特化したプロンプト設計を採用しており、一般的なチャットAIとは異なります。技術スタック・市場動向・給与レンジなどエンジニア固有の知識を組み込んでいます。もちろん完璧ではありませんが、「キャリアの整理」「選択肢の言語化」「年収交渉の準備」といった用途では非常に高い満足度を得ています。</p>
+  </details>
+  <details>
+    <summary>個人情報は安全ですか？</summary>
+    <p>会話内容はセッション内のみ保持され、セッション終了後は保存されません。メールアドレスはGumroadのライセンス認証のみに使用され、第三者と共有されません。</p>
+  </details>
+  <details>
+    <summary>解約はどうすればいいですか？</summary>
+    <p>Gumroadのマイページからいつでも解約できます。解約後も当月末まで利用可能です。違約金・解約手数料は一切ありません。</p>
+  </details>
+  <details>
+    <summary>エンジニア以外でも使えますか？</summary>
+    <p>一般的なキャリア相談は可能ですが、エンジニア・IT職向けに最適化されています。技術職以外の方にとっては一般的なAIツールと大きな差がないかもしれません。</p>
+  </details>
+  <details>
+    <summary>スマートフォンからも使えますか？</summary>
+    <p>はい、ブラウザから利用できます。スマートフォン・タブレット・PCいずれでも快適にご利用いただけます。</p>
+  </details>
+</section>
+
+<footer>
+  <p>&copy; 2026 キャリア相談AI. Powered by Anthropic Claude.</p>
+  <p style="margin-top: 8px;"><a href="https://github.com/aiagenta523-glitch/agenta_ventures" style="color: #5b4cff;">GitHub</a></p>
+</footer>
+
+</body>
+</html>
