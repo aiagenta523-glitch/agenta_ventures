@@ -6,7 +6,7 @@ Gumroad ライセンスキー検証モジュール
 import requests
 
 GUMROAD_API_URL = "https://api.gumroad.com/v2/licenses/verify"
-PRODUCT_PERMALINK = "dlksgk"  # Gumroadの商品パーマリンク（agenta31.gumroad.com/l/dlksgk）
+PRODUCT_PERMALINK = "career-ai-monthly"  # Gumroadの商品パーマリンク（agenta31.gumroad.com/l/career-ai-monthly）
 
 
 def verify_license(license_key: str) -> dict:
