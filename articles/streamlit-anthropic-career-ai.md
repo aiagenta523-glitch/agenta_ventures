@@ -342,7 +342,7 @@ CareerAIで管理している状態:
 
 公式の無料ホスティング。GitHubリポジトリと連携するだけでデプロイできます。
 
-1. [share.streamlit.io](https://share.streamlit.io) にアクセス
+1. [share.streamlit.io](https://agentaventures-mxxlbijkk9rugmgxsqmrtt.streamlit.app/) にアクセス
 2. GitHubリポジトリを連携
 3. `app.py` のパスを指定
 4. Secrets（`ANTHROPIC_API_KEY`）を設定
