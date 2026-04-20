@@ -6,6 +6,8 @@ topics: ["Streamlit", "Anthropic", "Python", "個人開発", "API"]
 published: true
 ---
 
+<!-- sync: 2026-04-20 -->
+
 
 この記事では、エンジニア特化の転職相談AIサービス「CareerAI」の実装を技術的に解説します。
 
