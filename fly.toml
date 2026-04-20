@@ -1,0 +1,18 @@
+# Fly.io デプロイ設定 - CareerAI
+app = "career-ai-agenta"
+primary_region = "nrt"  # Tokyo
+
+[build]
+  # Dockerfile を使用（存在しない場合はPythonビルドパックを自動検出）
+
+[http_service]
+  internal_port = 8501  # Streamlit デフォルトポート
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0  # コスト削減のため待機0
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
