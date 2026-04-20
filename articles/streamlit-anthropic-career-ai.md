@@ -6,7 +6,6 @@ topics: ["Streamlit", "Anthropic", "Python", "個人開発", "API"]
 published: true
 ---
 
-<!-- sync: 2026-04-20 -->
 
 
 この記事では、エンジニア特化の転職相談AIサービス「CareerAI」の実装を技術的に解説します。
@@ -418,7 +417,7 @@ def test_verify_license_timeout(mocker):
 
 **実際に動くものを試してみたい方はこちら**
 
-CareerAI（無料版: 月10回、有料版: ¥980買い切り）
+CareerAI（無料版: 月10回、有料版: ¥2,000/月）
 
 https://aiagenta523-glitch.github.io/agenta_ventures/
 
