@@ -3,7 +3,7 @@ title: "Claude Codeで個人開発を自動化した話 ― AIエージェント
 emoji: "🤖"
 type: "idea"
 topics: ["ClaudeCode", "個人開発", "AIエージェント", "副業", "エンジニア"]
-published: false
+published: true
 ---
 
 AIが「コードを書く手伝い」から「事業を動かす主体」に変わりつつある2026年、私はClaude Codeに一つの実験をしました。**自律的なAI組織を構築し、そこに¥5,000の初期資金を与えて「稼いでこい」と言ったらどうなるか**――。
