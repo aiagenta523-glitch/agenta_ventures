@@ -209,24 +209,26 @@ def post_article(article: dict) -> dict:
             final_publish_btn.click()
             time.sleep(6)
 
-            final_url = page.url
             page.screenshot(path="/tmp/note_published.png")
 
-            # Build the public URL
+            # Build the public URL if we have the note key
             if note_key:
                 public_url = f"https://note.com/aicareer523/n/{note_key}"
                 result["success"] = True
                 result["post_url"] = public_url
                 print(f"[SUCCESS] Published: {public_url}")
             else:
-                # Fallback: check current URL
-                body_text = page.locator("body").inner_text()
-                if "はじめての作品" in body_text or "公開しました" in body_text:
+                # Fallback: check URL for note key
+                final_url = page.url
+                key_match2 = re.search(r"/(n[a-f0-9]+)", final_url)
+                if key_match2:
+                    note_key2 = key_match2.group(1)
+                    public_url = f"https://note.com/aicareer523/n/{note_key2}"
                     result["success"] = True
-                    result["post_url"] = final_url
-                    print(f"[SUCCESS] Published! URL: {final_url[:100]}")
+                    result["post_url"] = public_url
+                    print(f"[SUCCESS] Published: {public_url}")
                 else:
-                    result["error"] = f"Publish status unclear. URL: {final_url[:100]}"
+                    result["error"] = f"Could not determine note URL. Final URL: {final_url[:100]}"
 
         except PlaywrightTimeoutError as e:
             result["error"] = f"Timeout: {str(e)[:150]}"
