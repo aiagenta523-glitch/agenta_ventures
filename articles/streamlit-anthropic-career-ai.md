@@ -4,6 +4,7 @@ emoji: "🔧"
 type: "tech"
 topics: ["Streamlit", "Anthropic", "Python", "個人開発", "API"]
 published: true
+price: 300
 ---
 
 

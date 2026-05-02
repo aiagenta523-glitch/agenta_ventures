@@ -3,7 +3,7 @@ title: "ChatGPTとClaudeを転職相談に使い比べた正直レビュー【20
 emoji: "🤖"
 type: "idea"
 topics: ["転職", "AI", "ChatGPT", "Claude", "就活"]
-published: true
+published: false
 ---
 
 ## はじめに

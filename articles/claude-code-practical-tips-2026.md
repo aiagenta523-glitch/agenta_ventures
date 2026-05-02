@@ -3,7 +3,7 @@ title: "Claude Codeを3ヶ月使って分かった「やってよかった設定
 emoji: "🛠️"
 type: "tech"
 topics: ["ClaudeCode", "AI", "開発効率化", "プロンプト", "ツール"]
-published: true
+published: false
 ---
 
 Claude Codeを使い始めて3ヶ月。最初は「すごい、でも使いこなせてない」という感覚でしたが、徐々に「このやり方が圧倒的に効く」というパターンが見えてきました。

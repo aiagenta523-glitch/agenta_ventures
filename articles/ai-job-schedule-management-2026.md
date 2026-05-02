@@ -3,7 +3,7 @@ title: "AIで転職スケジュールを自動管理する方法——ChatGPT・
 emoji: "📅"
 type: "idea"
 topics: ["転職", "AI", "ChatGPT", "Claude", "キャリア"]
-published: true
+published: false
 ---
 
 > **この記事で得られること**: 転職活動のスケジュール管理にAIを活用し、「何をいつやるべきか」の迷いをゼロにする具体的な方法と、そのまま使えるプロンプトテンプレートを紹介します。

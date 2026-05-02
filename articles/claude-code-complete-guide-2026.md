@@ -4,6 +4,7 @@ emoji: "⚡"
 type: "tech"
 topics: ["ClaudeCode", "AI", "開発効率化", "プロンプトエンジニアリング", "個人開発"]
 published: true
+price: 300
 ---
 
 
