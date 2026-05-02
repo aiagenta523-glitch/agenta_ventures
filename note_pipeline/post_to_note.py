@@ -62,61 +62,45 @@ def load_article_from_file(filepath: str) -> dict:
 def _insert_paid_zone(page) -> bool:
     """
     Insert note.com's paid zone separator into the ProseMirror editor.
-    Tries multiple approaches; returns True on success.
+    Uses the 'メニューを開く' sidebar button → '有料エリア指定' menu item.
+    Returns True on success (confirmed by <paywall-line> element in editor).
     """
     try:
-        # Approach 1: Press Enter to ensure we're on a new line, then find + button
-        page.keyboard.press("End")
-        page.keyboard.press("Enter")
-        time.sleep(0.5)
-
-        # Try clicking the "+" add-block button that appears on empty lines
-        add_btn_selectors = [
-            'button[aria-label="ブロックを追加"]',
-            '.addButton',
-            '[data-testid="add-block-button"]',
-            'button.add-block',
-        ]
-        add_btn = None
-        for sel in add_btn_selectors:
-            add_btn = page.query_selector(sel)
-            if add_btn:
-                break
-
-        if add_btn:
-            add_btn.click()
-            time.sleep(0.5)
-            # Click "有料ライン" in the popup menu
-            paid_line_btn = page.query_selector(
-                'button:has-text("有料ライン"), [data-type="paid"], [aria-label="有料ライン"]'
-            )
-            if paid_line_btn:
-                paid_line_btn.click()
-                time.sleep(0.5)
-                print("[INFO] Paid zone inserted via + button")
-                return True
-
-        # Approach 2: Try "/" command (slash command menu)
+        # Ensure cursor is in the editor body
         body_area = page.query_selector(".ProseMirror")
         if body_area:
             body_area.click()
             page.keyboard.press("End")
-            page.keyboard.press("Enter")
-            page.keyboard.type("/有料")
-            time.sleep(0.8)
-            paid_option = page.query_selector(
-                'button:has-text("有料ライン"), [data-type="paid-line"]'
-            )
-            if paid_option:
-                paid_option.click()
-                time.sleep(0.5)
-                print("[INFO] Paid zone inserted via slash command")
-                return True
-            else:
-                # Clear the typed text if no option appeared
-                page.keyboard.press("Escape")
-                for _ in range(4):
-                    page.keyboard.press("Backspace")
+            time.sleep(0.3)
+
+        # Open the block-insert menu via the sidebar 'メニューを開く' button
+        menu_btn = page.query_selector('button[aria-label="メニューを開く"]')
+        if not menu_btn:
+            print("[WARN] メニューを開く button not found")
+            return False
+
+        menu_btn.click()
+        time.sleep(0.8)
+
+        # Click '有料エリア指定' in the dropdown menu
+        paid_btn = page.query_selector('button:has-text("有料エリア指定")')
+        if not paid_btn:
+            print("[WARN] 有料エリア指定 button not found in menu")
+            # Close menu
+            page.keyboard.press("Escape")
+            return False
+
+        paid_btn.click()
+        time.sleep(0.8)
+
+        # Verify insertion: <paywall-line> should now exist in the editor
+        paywall_el = page.query_selector("paywall-line")
+        if paywall_el:
+            print("[INFO] Paid zone (paywall-line) inserted successfully")
+            return True
+        else:
+            print("[WARN] paywall-line element not found after insertion attempt")
+            return False
 
     except Exception as e:
         print(f"[WARN] Paid zone insertion error: {e}")
@@ -288,24 +272,23 @@ def post_article(article: dict) -> dict:
             # Set price in publish modal if paid zone was inserted
             if paid_zone_inserted and price > 0:
                 print(f"[INFO] Setting article price to ¥{price}...")
-                paid_selectors = [
-                    'input[value="paid"]',
-                    'label:has-text("有料")',
-                    'button:has-text("有料")',
-                    '[data-value="paid"]',
-                ]
-                for sel in paid_selectors:
-                    paid_opt = page.query_selector(sel)
-                    if paid_opt:
-                        paid_opt.click()
-                        time.sleep(0.8)
-                        print(f"[INFO] Clicked paid option: {sel}")
-                        break
+                # Select 'paid' radio button (name="is_paid" value="paid")
+                paid_radio = page.query_selector('input[name="is_paid"][value="paid"]')
+                if not paid_radio:
+                    paid_radio = page.query_selector('input[value="paid"]')
+                if paid_radio:
+                    paid_radio.click()
+                    time.sleep(0.8)
+                    print("[INFO] Paid radio button selected")
+                else:
+                    print("[WARN] Paid radio button not found")
+                # Set price in text input (placeholder="300" is the default price hint)
                 price_input = page.query_selector(
-                    'input[type="number"][min], input[placeholder*="価格"], input[name="price"]'
+                    'input[placeholder="300"], input[type="text"][placeholder]'
                 )
                 if price_input:
                     price_input.click()
+                    price_input.click(click_count=3)
                     price_input.fill(str(price))
                     time.sleep(0.3)
                     print(f"[INFO] Price set to ¥{price}")
@@ -316,11 +299,22 @@ def post_article(article: dict) -> dict:
 
             page.screenshot(path="/tmp/note_publish_modal.png")
 
-            # Click 投稿する (JS click to avoid visibility/stability timeout)
+            # If paid zone was inserted, click '有料エリア設定' first to confirm position
+            if paid_zone_inserted:
+                paid_zone_confirm_btn = page.query_selector('button:has-text("有料エリア設定")')
+                if paid_zone_confirm_btn:
+                    print("[INFO] Clicking 有料エリア設定 to confirm paid zone position...")
+                    page.evaluate("(el) => el.click()", paid_zone_confirm_btn)
+                    time.sleep(3)
+
+            # Click 投稿する / 更新する (JS click to avoid visibility/stability timeout)
             print("[INFO] Publishing...")
-            final_publish_btn = page.query_selector('button:has-text("投稿する")')
+            final_publish_btn = (
+                page.query_selector('button:has-text("投稿する")')
+                or page.query_selector('button:has-text("更新する")')
+            )
             if not final_publish_btn:
-                result["error"] = "Could not find 投稿する button"
+                result["error"] = "Could not find 投稿する/更新する button"
                 return result
 
             page.evaluate("(el) => el.click()", final_publish_btn)
