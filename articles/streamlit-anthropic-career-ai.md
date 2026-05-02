@@ -422,3 +422,4 @@ CareerAI（無料版: 月10回、有料版: ¥2,000/月）
 https://aiagenta523-glitch.github.io/agenta_ventures/
 
 GitHubリポジトリ: [aiagenta523-glitch/agenta_ventures](https://github.com/aiagenta523-glitch/agenta_ventures)
+
